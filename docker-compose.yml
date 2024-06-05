@@ -1,0 +1,27 @@
+version: '3.1'
+
+services:
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: we-connect
+    volumes:
+      - .:/usr/src/app 
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:3000"
+    command: ["npm", "run", "start:dev"]
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/nest
+      - NODE_ENV=development
+
+
