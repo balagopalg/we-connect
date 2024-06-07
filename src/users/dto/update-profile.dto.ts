@@ -1,30 +1,19 @@
-import { IsString, IsNotEmpty } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsString, IsNotEmpty, ValidateNested } from 'class-validator';
+import { AboutDto, InterestDto } from './create-profile.dto';
 
 export class UpdateProfileDTO {
   @IsString()
-  readonly imageUrl: string;
-
-  @IsString()
   @IsNotEmpty()
-  readonly name: string;
+  userId: string;
 
-  @IsString()
   @IsNotEmpty()
-  readonly gender: string;
+  @ValidateNested()
+  @Type(() => AboutDto)
+  about: AboutDto;
 
-  @IsString()
+  @ValidateNested()
+  @Type(() => InterestDto)
   @IsNotEmpty()
-  readonly dob: string;
-
-  @IsString()
-  readonly horoscopr: string;
-
-  @IsString()
-  readonly zodiac: string;
-
-  @IsString()
-  readonly height: string;
-
-  @IsString()
-  readonly weight: string;
+  interests: InterestDto;
 }

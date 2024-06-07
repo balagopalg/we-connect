@@ -15,7 +15,6 @@ export class AuthController {
         newUser,
       });
     } catch (err) {
-      console.log('🚀🚀 ~ UsersController ~ err---> ', err);
       return response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: 400,
         message: `Error: Failed to Login! - ${err}`,

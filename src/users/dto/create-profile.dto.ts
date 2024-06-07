@@ -1,30 +1,60 @@
-import { IsString, IsNotEmpty } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsString,
+  IsOptional,
+  IsNumber,
+  IsDateString,
+  IsNotEmpty,
+  ValidateNested,
+} from 'class-validator';
+
+export class AboutDto {
+  @IsString()
+  displayName: string;
+
+  @IsOptional()
+  @IsString()
+  imageUrl?: string;
+
+  @IsString()
+  gender: string;
+
+  @IsDateString()
+  birthday: string;
+
+  @IsOptional()
+  @IsString()
+  horoscope?: string;
+
+  @IsOptional()
+  @IsString()
+  zodiac?: string;
+
+  @IsOptional()
+  @IsNumber()
+  height?: number;
+
+  @IsOptional()
+  @IsNumber()
+  weight?: number;
+}
+
+export class InterestDto {
+  category: string[];
+}
 
 export class CreateProfileDTO {
   @IsString()
-  readonly imageUrl: string;
-
-  @IsString()
   @IsNotEmpty()
-  readonly name: string;
+  userId: string;
 
-  @IsString()
   @IsNotEmpty()
-  readonly gender: string;
+  @ValidateNested()
+  @Type(() => AboutDto)
+  about: AboutDto;
 
-  @IsString()
+  @ValidateNested()
+  @Type(() => InterestDto)
   @IsNotEmpty()
-  readonly dob: string;
-
-  @IsString()
-  readonly horoscopr: string;
-
-  @IsString()
-  readonly zodiac: string;
-
-  @IsString()
-  readonly height: string;
-
-  @IsString()
-  readonly weight: string;
+  interests: InterestDto;
 }
