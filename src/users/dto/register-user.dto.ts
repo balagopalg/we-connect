@@ -11,7 +11,7 @@ export class RegisterUserDTO {
   @IsNotEmpty()
   @MinLength(8)
   @MaxLength(14)
-  readonly username: string;
+  readonly username?: string;
 
   @IsString()
   @IsNotEmpty()

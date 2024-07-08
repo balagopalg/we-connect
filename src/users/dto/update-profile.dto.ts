@@ -5,7 +5,7 @@ import { AboutDto, InterestDto } from './create-profile.dto';
 export class UpdateProfileDTO {
   @IsString()
   @IsNotEmpty()
-  userId: string;
+  userId?: string;
 
   @IsNotEmpty()
   @ValidateNested()
@@ -15,5 +15,5 @@ export class UpdateProfileDTO {
   @ValidateNested()
   @Type(() => InterestDto)
   @IsNotEmpty()
-  interests: InterestDto;
+  interests?: InterestDto;
 }

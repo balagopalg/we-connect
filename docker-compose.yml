@@ -6,22 +6,51 @@ services:
     restart: always
     ports:
       - 27017:27017
+    networks:
+      - my_custom_network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - ./rabbitmq:/var/lib/rabbitmq
+    networks:
+      - my_custom_network
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "rabbitmq", "5672" ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
   app:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: we-connect
+    restart: on-failure
     volumes:
-      - .:/usr/src/app 
+      - .:/usr/src/app
       - /usr/src/app/node_modules
     ports:
-      - "3000:3000"
+      - "3001:3001"
     command: ["npm", "run", "start:dev"]
     depends_on:
       - mongo
+      - rabbitmq
     environment:
       - MONGO_URI=mongodb://mongo:27017/nest
       - NODE_ENV=development
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+    networks:
+      - my_custom_network
 
-
+networks:
+  my_custom_network:
+    driver: bridge

@@ -1,23 +1,30 @@
-import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
-import { UserLoginDTO } from 'src/auth/dto/user-login.dto';
+import { Controller, Post, Res, HttpStatus, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { UserLoginDTO } from './dto/user-login.dto';
 
-@Controller('auth')
+@Controller('api')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
+  /**
+   * Handles user login request.
+   * @param res The HTTP response object.
+   * @param userLoginDTO DTO containing user login data (email and password).
+   * @returns A JSON response indicating successful user login with status 201.
+   * @throws Returns a JSON response with status 400 if login fails due to invalid credentials or other errors.
+   */
   @Post('/login')
-  async userLogin(@Res() response, @Body() userLoginDTO: UserLoginDTO) {
+  async userLogin(@Res() res, @Body() userLoginDTO: UserLoginDTO) {
     try {
       const newUser = await this.authService.userLogin(userLoginDTO);
-      return response.status(HttpStatus.CREATED).json({
+      return res.status(HttpStatus.CREATED).json({
         message: 'User has been successfully logged in',
-        newUser,
+        user: newUser,
       });
     } catch (err) {
-      return response.status(HttpStatus.BAD_REQUEST).json({
-        statusCode: 400,
-        message: `Error: Failed to Login! - ${err}`,
+      return res.status(HttpStatus.BAD_REQUEST).json({
+        statusCode: HttpStatus.BAD_REQUEST,
+        message: `Error: Failed to login - ${err.message}`,
         error: 'Bad Request',
       });
     }

@@ -1,4 +1,3 @@
-// src/users/interfaces/user.interface.ts
 import { Document } from 'mongoose';
 
 export interface Interest {

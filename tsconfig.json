@@ -16,6 +16,13 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@users/*": ["src/users/*"],
+      "@horoscope/*": ["src/horoscope/*"],
+      "@application/*": ["src/application/*"],
+      "@rabbitmq/*": ["src/rabbitmq/*"],
+      "@messages/*": ["src/messages/*"]
+    }
   }
 }

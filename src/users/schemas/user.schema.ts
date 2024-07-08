@@ -1,4 +1,3 @@
-// src/users/schemas/user.schema.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { User } from '../interface/user.interface';
@@ -50,7 +49,7 @@ export class UserDocument extends Document implements User {
   @Prop({ required: true, unique: true })
   username: string;
 
-  @Prop({ type: About, required: true })
+  @Prop({ type: About, required: false })
   about: About;
 
   @Prop({ type: [Interest], default: [] })
