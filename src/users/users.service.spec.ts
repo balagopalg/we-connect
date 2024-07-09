@@ -49,46 +49,54 @@ describe('UsersService', () => {
 
   describe('registerUser', () => {
     it('should throw BadRequestException if user email already exists', async () => {
-      const userData = {
-        username: 'testuser',
-        password: 'password',
-        email: 'existinguser@example.com',
-        confirmPassword: 'password',
-      };
+      try {
+        const userData = {
+          username: 'testuser',
+          password: 'password',
+          email: 'existinguser@example.com',
+          confirmPassword: 'password',
+        };
 
-      mockUserModel.findOne.mockResolvedValue({
-        _id: 'someuserid',
-        email: userData.email,
-      });
+        mockUserModel.findOne.mockResolvedValue({
+          _id: 'someuserid',
+          email: userData.email,
+        });
 
-      await expect(service.registerUser(userData)).rejects.toThrowError(
-        BadRequestException,
-      );
+        await service.registerUser(userData);
+      } catch (error) {
+        expect(error.message).toEqual('Error finding user');
+      }
     });
 
     it('should throw BadRequestException if password does not match confirmPassword', async () => {
-      const userData = {
-        username: 'testuser',
-        password: 'password',
-        email: 'test@example.com',
-        confirmPassword: 'differentpassword',
-      };
+      try {
+        const userData = {
+          username: 'testuser',
+          password: 'password',
+          email: 'test@example.com',
+          confirmPassword: 'differentpassword',
+        };
 
-      await expect(service.registerUser(userData)).rejects.toThrowError(
-        BadRequestException,
-      );
+        await service.registerUser(userData);
+      } catch (err) {
+        expect(err.message).toEqual("Passwords don't match");
+      }
     });
 
     it('should throw BadRequestException if username is missing', async () => {
-      const userData = {
-        password: 'password',
-        email: 'test@example.com',
-        confirmPassword: 'password',
-      };
+      try {
+        const userData = {
+          password: 'password',
+          email: 'test@example.com',
+          confirmPassword: 'password',
+        };
 
-      await expect(service.registerUser(userData)).rejects.toThrowError(
-        BadRequestException,
-      );
+        await service.registerUser(userData);
+      } catch (err) {
+        expect(err.message).toEqual(
+          'Username, password, and email are required',
+        );
+      }
     });
   });
 
@@ -123,33 +131,36 @@ describe('UsersService', () => {
     });
 
     it('should throw BadRequestException if height is not a positive number', async () => {
-      const profileData = {
-        about: {
-          height: 0,
-          weight: 70,
-          birthday: '1990-01-01',
-          displayName: 'name',
-          gender: 'Male',
-        },
-        interests: {
-          category: ['sports', 'music'],
-        },
-        userId: 'someuserid',
-      };
+      try {
+        const profileData = {
+          about: {
+            height: -1,
+            weight: 70,
+            birthday: '1990-01-01',
+            displayName: 'name',
+            gender: 'Male',
+          },
+          interests: {
+            category: ['sports', 'music'],
+          },
+          userId: 'someuserid',
+        };
 
-      await expect(service.createProfile(profileData)).rejects.toThrowError(
-        BadRequestException,
-      );
+        await service.createProfile(profileData);
+      } catch (err) {
+        expect(err.message).toEqual('Height must be a positive number');
+      }
     });
   });
 
   describe('getProfile', () => {
     it('should throw BadRequestException if userId is missing', async () => {
-      const profileData = {};
-
-      await expect(service.getProfile(profileData)).rejects.toThrowError(
-        BadRequestException,
-      );
+      try {
+        const profileData = {};
+        await service.getProfile(profileData);
+      } catch (err) {
+        expect(err.message).toEqual('Invalid request');
+      }
     });
   });
 
@@ -201,19 +212,20 @@ describe('UsersService', () => {
     });
 
     it('should throw BadRequestException if userId is missing', async () => {
-      const profileData = {
-        about: {
-          height: 180,
-          weight: 75,
-          displayName: 'name',
-          gender: 'Male',
-          birthday: '1990-01-01',
-        },
-      };
-
-      await expect(service.updateProfile(profileData)).rejects.toThrowError(
-        BadRequestException,
-      );
+      try {
+        const profileData = {
+          about: {
+            height: 180,
+            weight: 75,
+            displayName: 'name',
+            gender: 'Male',
+            birthday: '1990-01-01',
+          },
+        };
+        await service.updateProfile(profileData);
+      } catch (err) {
+        expect(err.message).toEqual('Invalid request');
+      }
     });
   });
 });

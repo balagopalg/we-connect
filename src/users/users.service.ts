@@ -77,41 +77,35 @@ export class UsersService {
    */
   async createProfile(profileData: CreateProfileDTO): Promise<any> {
     const { about, interests, userId } = profileData;
+    const { height, weight, birthday } = about;
+
+    if (height !== undefined && height <= 0) {
+      throw new BadRequestException('Height must be a positive number');
+    }
+    if (weight !== undefined && weight <= 0) {
+      throw new BadRequestException('Weight must be a positive number');
+    }
+    const mappedInterests = interests.category.map((category: string) => ({
+      category,
+    }));
+
+    if (birthday) {
+      const horoscope = this.horoscopeService.getHoroscope(birthday);
+      const zodiac = this.horoscopeService.getZodiac(birthday);
+      if (horoscope) about.horoscope = horoscope;
+      if (zodiac) about.zodiac = zodiac;
+    }
 
     try {
-      const { height, weight } = about;
-
-      if (height !== undefined && height <= 0) {
-        throw new BadRequestException('Height must be a positive number');
-      }
-      if (weight !== undefined && weight <= 0) {
-        throw new BadRequestException('Weight must be a positive number');
-      }
-
-      const mappedInterests = interests.category.map((category: string) => ({
-        category,
-      }));
       const updatedUser = await this.userModel.findByIdAndUpdate(
         userId,
         { $set: { about, interests: mappedInterests } },
-        { new: true },
+        { new: true, select: '-password' },
       );
-
-      if (!updatedUser) {
-        throw new NotFoundException('User not found');
-      }
-
-      if (about.birthday) {
-        const horoscope = this.horoscopeService.getHoroscope(about.birthday);
-        const zodiac = this.horoscopeService.getZodiac(about.birthday);
-        if (horoscope) updatedUser.about.horoscope = horoscope;
-        if (zodiac) updatedUser.about.zodiac = zodiac;
-        await updatedUser.save();
-      }
 
       return updatedUser;
     } catch (error) {
-      throw new BadRequestException('Failed to create user profile');
+      throw new BadRequestException('Failed to update user profile');
     }
   }
 
@@ -125,7 +119,9 @@ export class UsersService {
    */
   async getProfile(profileData: ViewProfileDTO): Promise<any> {
     const { userId } = profileData;
-
+    if (!userId) {
+      throw new BadRequestException('Invalid request');
+    }
     try {
       const userProfile = await this.userModel
         .findById(userId)

@@ -13,20 +13,20 @@ export class HoroscopeService {
       const [year, month, day] = dateOfBirth.split('-').map(Number);
 
       for (const sign in horoscopeSigns) {
-        const { from, to } = horoscopeSigns[sign];
-        if (
-          month === from.month &&
-          day >= from.day &&
-          month === to.month &&
-          day <= to.day
-        ) {
-          return sign.replace('SecondPart', '');
+        const { from, to } =
+          horoscopeSigns[sign as keyof typeof horoscopeSigns];
+        if (day >= 1 && day <= 31) {
+          if (
+            (month === from.month && day >= from.day) ||
+            (month === to.month && day <= to.day)
+          ) {
+            return sign.replace('SecondPart', '');
+          }
         }
       }
       return null;
     } catch (error) {
-      console.error('Error in getHoroscope:', error);
-      return null;
+      throw error;
     }
   }
 
@@ -49,7 +49,6 @@ export class HoroscopeService {
       }
       return null;
     } catch (error) {
-      console.error('Error in getZodiac:', error);
       return null;
     }
   }

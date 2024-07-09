@@ -66,10 +66,14 @@ describe('AuthService', () => {
       const salt = bcrypt.genSaltSync(10);
       const mockUserData = {
         _id: '1',
-        password: await await bcrypt.hashSync('password', salt),
+        password: await bcrypt.hashSync('password', salt),
       };
-      jest.spyOn(usersService, 'findUser').mockResolvedValueOnce(mockUserData);
-      jest.spyOn(bcrypt, 'compare').mockResolvedValueOnce(false);
+      jest
+        .spyOn(usersService, 'findUser')
+        .mockResolvedValueOnce(mockUserData as unknown as any);
+      jest
+        .spyOn(bcrypt, 'compare')
+        .mockResolvedValueOnce(false as unknown as never);
       await expect(service.userLogin(loginData)).rejects.toThrow(
         BadRequestException,
       );
@@ -85,8 +89,12 @@ describe('AuthService', () => {
         password: await bcrypt.hash('password', 10),
       };
       const mockToken = 'mockAccessToken';
-      jest.spyOn(usersService, 'findUser').mockResolvedValueOnce(mockUserData);
-      jest.spyOn(bcrypt, 'compare').mockResolvedValueOnce(true);
+      jest
+        .spyOn(usersService, 'findUser')
+        .mockResolvedValueOnce(mockUserData as unknown as any);
+      jest
+        .spyOn(bcrypt, 'compare')
+        .mockResolvedValueOnce(true as unknown as never);
       jest.spyOn(jwtService, 'sign').mockReturnValueOnce(mockToken);
 
       const result = await service.userLogin(loginData);
