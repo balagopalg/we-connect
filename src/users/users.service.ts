@@ -12,6 +12,7 @@ import { UpdateProfileDTO } from './dto/update-profile.dto';
 import { ViewProfileDTO } from './dto/view-profile.dto';
 import { UserDocument } from './schemas/user.schema';
 import * as bcrypt from 'bcryptjs';
+import { User } from './interface/user.interface';
 
 @Injectable()
 export class UsersService {
@@ -70,12 +71,12 @@ export class UsersService {
   /**
    * Creates or updates a user profile with the provided profile data.
    * @param {CreateProfileDTO} profileData - The profile data to create or update.
-   * @returns {Promise<any>} The updated user profile object.
+   * @returns {Promise<User>} The updated user profile object.
    * @throws {BadRequestException} If userId is missing, height or weight is invalid,
    *                               or any other error occurs during profile creation or update.
    * @throws {NotFoundException} If the user with the specified userId is not found.
    */
-  async createProfile(profileData: CreateProfileDTO): Promise<any> {
+  async createProfile(profileData: CreateProfileDTO): Promise<User> {
     const { about, interests, userId } = profileData;
     const { height, weight, birthday } = about;
 
@@ -112,12 +113,12 @@ export class UsersService {
   /**
    * Retrieves the profile of a user identified by userId.
    * @param {ViewProfileDTO} profileData - The profile data containing userId.
-   * @returns {Promise<any>} The user profile object excluding the password.
+   * @returns {Promise<User>} The user profile object excluding the password.
    * @throws {BadRequestException} If userId is missing or invalid, or any other error occurs
    *                               during profile retrieval.
    * @throws {NotFoundException} If the user profile with the specified userId is not found.
    */
-  async getProfile(profileData: ViewProfileDTO): Promise<any> {
+  async getProfile(profileData: ViewProfileDTO): Promise<User> {
     const { userId } = profileData;
     if (!userId) {
       throw new BadRequestException('Invalid request');
@@ -141,12 +142,12 @@ export class UsersService {
   /**
    * Updates the profile of a user identified by userId with the provided profile data.
    * @param {UpdateProfileDTO} profileData - The profile data containing userId, about, and interests.
-   * @returns {Promise<any>} The updated user profile object.
+   * @returns {Promise<User>} The updated user profile object.
    * @throws {BadRequestException} If userId is missing or invalid, or any other error occurs
    *                               during profile update.
    * @throws {NotFoundException} If the user profile with the specified userId is not found.
    */
-  async updateProfile(profileData: UpdateProfileDTO): Promise<any> {
+  async updateProfile(profileData: UpdateProfileDTO): Promise<User> {
     const { userId, about, interests } = profileData;
 
     try {

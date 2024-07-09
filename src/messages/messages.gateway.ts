@@ -9,6 +9,7 @@ import {
   WebSocketGateway,
 } from '@nestjs/websockets';
 import { Namespace, Socket } from 'socket.io';
+import { MessageObject } from './interface/messages.interface';
 
 @WebSocketGateway()
 export class MessageGateway
@@ -32,7 +33,7 @@ export class MessageGateway
 
   @SubscribeMessage('newMessage')
   async handleMessage(
-    @MessageBody() data: any,
+    @MessageBody() data: MessageObject,
     @ConnectedSocket() client: Socket,
   ): Promise<void> {
     try {

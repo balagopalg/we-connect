@@ -5,6 +5,7 @@ import { RabbitmqService } from '@rabbitmq/rabbitmq.service';
 import { Model } from 'mongoose';
 import { CreateMessageDTO } from './dto/create-message-dto';
 import { Message } from './schemas/messages.schema';
+import { MessageObject } from './interface/messages.interface';
 
 @Injectable()
 export class MessagesService {
@@ -36,7 +37,7 @@ export class MessagesService {
         receiver,
       });
 
-      const messageInfo = { sender, receiver, content };
+      const messageInfo: MessageObject = { sender, receiver, content };
       await this.rabbitmqService.sendNotification(messageInfo);
 
       return savedMessage;

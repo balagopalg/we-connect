@@ -3,6 +3,7 @@ import { TestingModule, Test } from '@nestjs/testing';
 import { RabbitmqService } from '@rabbitmq/rabbitmq.service';
 import { CreateMessageDTO } from './dto/create-message-dto';
 import { MessagesService } from './messages.service';
+import { Message } from './schemas/messages.schema';
 
 export class MockLoggerService {
   log(message: string) {}
@@ -14,7 +15,7 @@ export class MockLoggerService {
 
 describe('MessagesService', () => {
   let service: MessagesService;
-  let messageModel: any;
+  let messageModel: Message;
   let rabbitmqService: RabbitmqService;
   let applicationLogger: MockLoggerService;
 
@@ -44,7 +45,7 @@ describe('MessagesService', () => {
     }).compile();
 
     service = module.get<MessagesService>(MessagesService);
-    messageModel = module.get<any>(getModelToken('Message'));
+    messageModel = module.get<Message>(getModelToken('Message'));
     rabbitmqService = module.get<RabbitmqService>(RabbitmqService);
     applicationLogger = module.get<MockLoggerService>('applicationLogger');
   });
