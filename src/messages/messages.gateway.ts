@@ -42,6 +42,7 @@ export class MessageGateway
       const receiver = messageData.receiver;
       const message = messageData.message;
 
+      // TODO : Send the proper response in websocket.
       if (receiver && message) {
         this.server
           .to(receiver)
