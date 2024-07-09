@@ -1,73 +1,123 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+We-Connect
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+We-Connect is a real-time messaging application built using NestJS, Docker, RabbitMQ, MongoDB, and Socket.io. This app allows users to register, login, create profiles, update profiles, view profiles, and engage in text-based chat with other users. The chat functionality leverages RabbitMQ and Socket.io to send message notifications in real-time.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Features
 
-## Description
+- User Registration
+- User Login
+- Profile Creation
+- Profile Update
+- Profile Viewing
+- Real-time Text-Based Chat between Two Users
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Endpoints
 
-## Installation
+Authentication
 
-```bash
-$ npm install
-```
+- POST /api/register - Register a new user
 
-## Running the app
+Sample Input
+{
+	"email": "user@gmail.com",
+	"username": "User",
+	"password": "Abcd123@",
+	"confirmPassword": "Abcd123@"
+}
 
-```bash
-# development
-$ npm run start
+- POST /api/login - Login a user
 
-# watch mode
-$ npm run start:dev
+Sample Input
+{
+	"email": "user@gmail.com",
+	"password": "Abcd123@"
+}
 
-# production mode
-$ npm run start:prod
-```
+Profile
 
-## Test
+- POST /api/createProfile - Create a user profile
 
-```bash
-# unit tests
-$ npm run test
+Sample Input
+{
+	"userId": "668ca540c54d5823a5fa8c3f",
+	"about": {
+	"displayName": "User",
+		"gender": "Male",
+		"birthday":"1999-01-01"
+		
+},
+	"interests": {
+	"category": ["cricket", "movies"]
+}
+}
 
-# e2e tests
-$ npm run test:e2e
+- POST /api/updateProfile - Update a user profile
 
-# test coverage
-$ npm run test:cov
-```
+Sample Input
+{
+	"userId": "668c079d8f979cfbe3b70c8c",
+	"about": {
+	"displayName": "User",
+		"gender": "Male",
+		"birthday":"1997-04-19"
+		
+},
+	"interests": {
+	"category": ["cricket", "movies", "music"]
+}
+}
 
-## Support
+- GET /api/getProfile - View a user profile
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Sample Input
+{
+	"userId": "668ca540c54d5823a5fa8c3f"
+}
 
-## Stay in touch
+Chat
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- POST /api/sendMessage - Send a chat message
 
-## License
+Sample Input
+{
+	"receiver": "668c1d1d2d4d44d7a3cb7b73",
+	"text": "Sample Message"
+}
 
-Nest is [MIT licensed](LICENSE).
+- GET /api/viewMessages/:senderId - Get the messages
+
+
+
+Environment Variables
+
+# JWT_SECRET
+# JWT_EXPIRES = 1d
+# NODE_ENV = development 
+# MONGO_URI
+# RABBITMQ_HOST
+# RABBITMQ_PORT
+# RABBITMQ_USER
+# RABBITMQ_PASSWORD
+# PORT = 3001
+
+Prerequisites
+
+Docker and Docker Compose installed
+Node.js Version 18 installed
+
+Instructions
+Clone the repository:
+
+git clone https://github.com/balagopalg/we-connect
+cd we-connect
+
+Create a .env file in the root directory and add your environment variables.
+
+Build and run the Docker containers:
+docker-compose up --build
+
+The application will be available at http://localhost:3001
+
+
+
+
