@@ -118,6 +118,8 @@ docker-compose up --build
 
 The application will be available at http://localhost:3001
 
+The websocket connection will be available at ws://127.0.0.1:3001 and subscribe to event 'newMessage'
+
 
 
 
