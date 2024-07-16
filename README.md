@@ -40,15 +40,15 @@ Chat
 
 Environment Variables
 
-### JWT_SECRET
-### JWT_EXPIRES = 1d
-### NODE_ENV = development 
-### MONGO_URI
-### RABBITMQ_HOST
-### RABBITMQ_PORT
-### RABBITMQ_USER
-### RABBITMQ_PASSWORD
-### PORT = 3001
+- JWT_SECRET
+- JWT_EXPIRES = 1d
+- NODE_ENV = development 
+- MONGO_URI
+- RABBITMQ_HOST
+- RABBITMQ_PORT
+- RABBITMQ_USER
+- RABBITMQ_PASSWORD
+- PORT = 3001
 
 Prerequisites
 
