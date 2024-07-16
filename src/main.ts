@@ -4,6 +4,7 @@ import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { SocketIOAdapter } from './socket-io.adapter';
 import { ConfigService } from '@nestjs/config';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 const configService = new ConfigService();
 const PORT = parseInt(configService.get('PORT'), 10) || 3001;
@@ -42,6 +43,17 @@ async function bootstrap() {
     app.useWebSocketAdapter(new SocketIOAdapter(app));
 
     app.connectMicroservice(microserviceOptions);
+
+    // Swagger API Documentation
+    const options = new DocumentBuilder()
+      .setTitle('We-connect api Documentation')
+      .setDescription('We-connect api Documentation')
+      .setVersion('1.0')
+      .addTag('we-connect')
+      .build();
+
+    const document = SwaggerModule.createDocument(app, options);
+    SwaggerModule.setup('api-docs', app, document);
 
     await app.startAllMicroservices();
     await app.listen(PORT, () => {

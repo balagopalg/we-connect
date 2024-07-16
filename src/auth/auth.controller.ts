@@ -1,6 +1,7 @@
 import { Controller, Post, Res, HttpStatus, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserLoginDTO } from './dto/user-login.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('api')
 export class AuthController {
@@ -13,6 +14,7 @@ export class AuthController {
    * @returns A JSON response indicating successful user login with status 201.
    * @throws Returns a JSON response with status 400 if login fails due to invalid credentials or other errors.
    */
+  @ApiTags('Authorization')
   @Post('/login')
   async userLogin(@Res() res, @Body() userLoginDTO: UserLoginDTO) {
     try {

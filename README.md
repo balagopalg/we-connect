@@ -17,88 +17,41 @@ Authentication
 
 - POST /api/register - Register a new user
 
-Sample Input
-{
-	"email": "user@gmail.com",
-	"username": "User",
-	"password": "Abcd123@",
-	"confirmPassword": "Abcd123@"
-}
-
 - POST /api/login - Login a user
-
-Sample Input
-{
-	"email": "user@gmail.com",
-	"password": "Abcd123@"
-}
 
 Profile
 
 - POST /api/createProfile - Create a user profile
 
-Sample Input
-{
-	"userId": "668ca540c54d5823a5fa8c3f",
-	"about": {
-	"displayName": "User",
-		"gender": "Male",
-		"birthday":"1999-01-01"
-		
-},
-	"interests": {
-	"category": ["cricket", "movies"]
-}
-}
-
 - POST /api/updateProfile - Update a user profile
-
-Sample Input
-{
-	"userId": "668c079d8f979cfbe3b70c8c",
-	"about": {
-	"displayName": "User",
-		"gender": "Male",
-		"birthday":"1997-04-19"
-		
-},
-	"interests": {
-	"category": ["cricket", "movies", "music"]
-}
-}
 
 - GET /api/getProfile - View a user profile
 
-Sample Input
-{
-	"userId": "668ca540c54d5823a5fa8c3f"
-}
 
 Chat
 
 - POST /api/sendMessage - Send a chat message
 
-Sample Input
-{
-	"receiver": "668c1d1d2d4d44d7a3cb7b73",
-	"text": "Sample Message"
-}
-
 - GET /api/viewMessages/:senderId - Get the messages
+
+** API Documentation will be available at http://localhost:3001/api-docs **
 
 
 
 Environment Variables
 
-# JWT_SECRET
-# JWT_EXPIRES = 1d
-# NODE_ENV = development 
-# MONGO_URI
-# RABBITMQ_HOST
-# RABBITMQ_PORT
-# RABBITMQ_USER
-# RABBITMQ_PASSWORD
-# PORT = 3001
+` 
+JWT_SECRET
+JWT_EXPIRES = 1d
+NODE_ENV = development 
+MONGO_URI
+RABBITMQ_HOST
+RABBITMQ_PORT
+RABBITMQ_USER
+RABBITMQ_PASSWORD
+PORT = 3001 
+
+`
 
 Prerequisites
 
@@ -116,9 +69,9 @@ Create a .env file in the root directory and add your environment variables.
 Build and run the Docker containers:
 docker-compose up --build
 
-The application will be available at http://localhost:3001
+** The application will be available at http://localhost:3001 **
 
-The websocket connection will be available at ws://127.0.0.1:3001 and subscribe to event 'newMessage'
+** The websocket connection will be available at ws://127.0.0.1:3001 and subscribe to event 'newMessage' **
 
 
 
