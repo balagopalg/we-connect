@@ -34,24 +34,21 @@ Chat
 
 - GET /api/viewMessages/:senderId - Get the messages
 
-** API Documentation will be available at http://localhost:3001/api-docs **
+**API Documentation will be available at http://localhost:3001/api-docs**
 
 
 
 Environment Variables
 
-` 
-JWT_SECRET
-JWT_EXPIRES = 1d
-NODE_ENV = development 
-MONGO_URI
-RABBITMQ_HOST
-RABBITMQ_PORT
-RABBITMQ_USER
-RABBITMQ_PASSWORD
-PORT = 3001 
-
-`
+### JWT_SECRET
+### JWT_EXPIRES = 1d
+### NODE_ENV = development 
+### MONGO_URI
+### RABBITMQ_HOST
+### RABBITMQ_PORT
+### RABBITMQ_USER
+### RABBITMQ_PASSWORD
+### PORT = 3001
 
 Prerequisites
 
@@ -69,9 +66,9 @@ Create a .env file in the root directory and add your environment variables.
 Build and run the Docker containers:
 docker-compose up --build
 
-** The application will be available at http://localhost:3001 **
+**The application will be available at http://localhost:3001**
 
-** The websocket connection will be available at ws://127.0.0.1:3001 and subscribe to event 'newMessage' **
+**The websocket connection will be available at ws://127.0.0.1:3001 and subscribe to event 'newMessage'**
 
 
 
